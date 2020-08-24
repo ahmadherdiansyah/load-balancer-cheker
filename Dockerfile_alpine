@@ -1,0 +1,17 @@
+FROM alpine:3
+
+RUN apk add --update --no-cache git make gcc  python3 \
+    python3-dev \
+    py-pip \
+    build-base nodejs yarn
+RUN mkdir /app
+WORKDIR /app
+
+COPY . .
+RUN yarn install
+
+RUN yarn build
+
+ENV NODE_ENV=production
+EXPOSE 3000
+CMD ["yarn", "start:prod"]
